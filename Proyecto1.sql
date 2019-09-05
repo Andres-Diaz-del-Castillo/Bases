@@ -62,8 +62,8 @@ CREATE TABLE Veterinario (
 );
 
 CREATE TABLE Visita (
-  id_visita varchar2(20),
-  tipo varchar2(20) NOT NULL,
+  id_visita varchar2(200),
+  tipo varchar2(200) NOT NULL,
   fecha_ingreso Date NOT NULL,
   fecha_egreso Date,
   motivo_visita varchar2(60) NOT NULL,
@@ -83,9 +83,9 @@ CREATE TABLE MascotaXVisita(
 );
 
 CREATE TABLE Notas (
-  id_visita varchar2(20) REFERENCES Visita ON DELETE CASCADE,
+  id_visita varchar2(200) REFERENCES Visita ON DELETE CASCADE,
   fecha_nota timestamp NOT NULL,
-  nota varchar2(60) NOT NULL,
+  nota varchar2(200) NOT NULL,
   PRIMARY KEY (id_visita, fecha_nota)
 );
 
@@ -224,12 +224,12 @@ SET costo = (100000*(SELECT factor_costo
 WHERE tipo = 'HOSPITALIZACION';
 
 --Consulta 6
-/*INSERT INTO Notas(id_visita, fecha_nota, nota)
-SELECT VIS.id_visita,VIS.fecha_egreso,'NOTA AUTOMATICA: FECHA DE SALIDA DEL PACIENTE '  + cast(trunc(sysdate) as varchar(50))
+INSERT INTO Notas(id_visita,fecha_nota,nota)
+SELECT VIS.id_visita,VIS.fecha_egreso,concat('NOTA AUTOMATICA: FECHA DE SALIDA DEL PACIENTE: ', (to_char(sysdate, 'dd, mm, yyyy')))
 FROM Visita VIS
 WHERE EXTRACT (MONTH FROM VIS.fecha_egreso) = TO_CHAR(SYSDATE, 'MM') 
 AND EXTRACT (DAY FROM VIS.fecha_egreso) = TO_CHAR(SYSDATE, 'DD')
-AND EXTRACT (YEAR FROM VIS.fecha_egreso) = TO_CHAR(SYSDATE, 'YYYY');*/
+AND EXTRACT (YEAR FROM VIS.fecha_egreso) = TO_CHAR(SYSDATE, 'YYYY');
 
 --Consulta 7
 --VISTA INICIAL
